@@ -1,5 +1,6 @@
 # Secrets file
 google_credentials.json
+myenv/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
