@@ -1,12 +1,6 @@
 from unittest import TestCase
-import os
-import sys
 
-# Fixes importing issue by adding src to local tree
-src_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../src'))
-sys.path.insert(0, src_dir)
-
-from transformers.subcategory_parser import SubcategoryParser
+from src.transformers.subcategory_parser import SubcategoryParser
 
 class TestSubcategoryParser(TestCase):
     def setUp(self):
@@ -16,7 +10,6 @@ class TestSubcategoryParser(TestCase):
         self.assertEqual(self.subcategory_parser.transform("K2 Skates"), "Sports")
         self.assertEqual(self.subcategory_parser.transform("REI 3920"), "Sports")
         self.assertEqual(self.subcategory_parser.transform("REI 912332"), "Sports")
-
 
     def test_moved_payments(self):
         self.assertEqual(self.subcategory_parser.transform("Capital One Online Pymt"), "Moved Money")
@@ -30,3 +23,7 @@ class TestSubcategoryParser(TestCase):
     def test_health(self):
         self.assertEqual(self.subcategory_parser.transform("SP Geologie"), "Health")
         self.assertEqual(self.subcategory_parser.transform("Neutrogenia"), "Health")
+    
+    def test_other(self):
+        self.assertEqual(self.subcategory_parser.transform("Some other category"), "OTHER")
+        self.assertEqual(self.subcategory_parser.transform("Some junk", "Dining"), "Dining")
